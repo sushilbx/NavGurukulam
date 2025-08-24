@@ -32,7 +32,12 @@ class MainActivity : ComponentActivity() {
 
         vm.students.observe(this) { adapter.submitList(it) }
 
-        binding.btnRetry.setOnClickListener { SyncScheduler.retryNow(this) }
+        binding.btnRetry.setOnClickListener {
+            SyncScheduler.retryNow(this)
+            Toast.makeText(this, "Syncing...", Toast.LENGTH_SHORT).show()
+           // binding.tvSyncStatus.text = "Syncing..."
+
+        }
 
 
 

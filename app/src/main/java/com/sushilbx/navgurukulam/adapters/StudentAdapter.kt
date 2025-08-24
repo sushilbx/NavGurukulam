@@ -117,7 +117,16 @@ class StudentVH(private val binding: ItemStudentBinding) : RecyclerView.ViewHold
         }
 
 
-        scoreAdapter.submitList(studentWithScores.scores)
+       // scoreAdapter.submitList(studentWithScores.scores)
+
+        if (studentWithScores.scores.isEmpty()) {
+            binding.llScoresHeader.visibility = View.GONE
+            binding.rvScores.visibility = View.GONE
+        } else {
+            binding.llScoresHeader.visibility = View.VISIBLE
+            binding.rvScores.visibility = View.VISIBLE
+            scoreAdapter.submitList(studentWithScores.scores)
+        }
     }
 
 }

@@ -6,7 +6,7 @@
     <color name="bottomm">#70000000</color>
     <color name="transparent">#00000000</color>
 
-    <color name="md_theme_light_primary">#BF0023</color>
+    <color name="md_theme_light_primary">#F4511E</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
     <color name="md_theme_light_primaryContainer">#FFDAD7</color>
     <color name="md_theme_light_onPrimaryContainer">#410005</color>
@@ -69,4 +69,36 @@
     <color name="CustomColor1">#CD46BD</color>
     <color name="CustomColor2">#88ECAD</color>
     <color name="CustomColor3">#7ACD2E</color>
+
+
+    <color name="textPrimary">#212121</color>
+    <color name="textSecondary">#757575</color>
+    <color name="textTertiary">#9E9E9E</color>
+    <color name="textDisabled">#BDBDBD</color>
+    <color name="textOnPrimary">#FFFFFF</color>
+    <color name="textOnSecondary">#000000</color>
+    <color name="textHint">#9E9E9E</color>
+    <color name="successGreen">#4CAF50</color>
+    <color name="successGreenLight">#81C784</color>
+    <color name="successGreenDark">#2E7D32</color>
+
+    <color name="warningOrange">#FF9800</color>
+    <color name="warningOrangeLight">#FFB74D</color>
+    <color name="warningOrangeDark">#F57C00</color>
+
+    <color name="errorRed">#F44336</color>
+    <color name="errorRedLight">#EF5350</color>
+    <color name="errorRedDark">#C62828</color>
+
+    <color name="infoBlue">#2196F3</color>
+    <color name="infoBlueLLight">#64B5F6</color>
+    <color name="infoBlueDark">#1565C0</color>
+    <color name="dividerColor">#E0E0E0</color>
+    <color name="borderColor">#EEEEEE</color>
+    <color name="outlineColor">#BDBDBD</color>
+    <color name="rippleColor">#1F000000</color>
+    <color name="colorSecondary">#03DAC6</color>
+    <color name="colorSecondaryVariant">#018786</color>
+    <color name="colorAccent">#FF5722</color>
+    <color name="colorAccentLight">#FFAB91</color>
 </resources>

@@ -5,33 +5,58 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <EditText
-        android:id="@+id/editFullName"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Full Name" />
+        android:hint="Full Name">
 
-    <EditText
-        android:id="@+id/editClassName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Class" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editFullName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/editSchoolId"
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="School ID" />
+        android:layout_marginTop="10dp"
+        android:hint="Class">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editClassName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+
+        android:hint="School ID">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editSchoolId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="School ID" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <RadioGroup
         android:id="@+id/genderGroup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="10dp">
+
         <RadioButton
             android:id="@+id/maleRadio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Male" />
+
         <RadioButton
             android:id="@+id/femaleRadio"
             android:layout_width="wrap_content"

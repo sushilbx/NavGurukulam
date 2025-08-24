@@ -1,39 +1,30 @@
 package com.sushilbx.navgurukulam
 
-import com.sushilbx.navgurukulam.room.ScoreCard
+import com.sushilbx.navgurukulam.apis.ApiService
 import com.sushilbx.navgurukulam.room.ScoreCardDao
 import com.sushilbx.navgurukulam.room.SyncStatus
+import com.sushilbx.navgurukulam.room.ScoreCard
 
 class ScoreCardRepository(
-    private val scoreCardDao: ScoreCardDao,
-    private val apiService: ApiService
+    private val dao: ScoreCardDao,
+    private val api: ApiService
 ) {
+    suspend fun addScoreCard(scoreCard: ScoreCard) = dao.insert(scoreCard)
+    suspend fun update(scoreCard: ScoreCard) = dao.update(scoreCard)
+    suspend fun delete(scoreCard: ScoreCard) = dao.delete(scoreCard)
+    suspend fun getByStudent(studentId: Long) = dao.getByStudent(studentId.toString())
 
-    fun getScoreCardsForStudent(studentId: String) =
-        scoreCardDao.getScoreCardsForStudent(studentId)
-
-    suspend fun insert(scoreCard: ScoreCard) = scoreCardDao.insert(scoreCard)
-
-    suspend fun delete(scoreCard: ScoreCard) = scoreCardDao.delete(scoreCard)
-
-    suspend fun update(scoreCard: ScoreCard) = scoreCardDao.update(scoreCard)
-    suspend fun syncPendingScoreCards() {
-        val pending = scoreCardDao.getPendingScoreCards()
-        if (pending.isNotEmpty()) {
+    suspend fun syncPending() {
+        val pending = dao.getPending()
+        for (sc in pending) {
             try {
-                apiService.syncScoreCards(pending) // send list
-
-                // mark all as synced
-                pending.forEach { scoreCard ->
-                    scoreCardDao.update(scoreCard.copy(syncStatus = SyncStatus.SYNCED))
+                val response = api.syncScoreCard(sc) // your API call
+                if (response.isSuccessful) {
+                    dao.update(sc.copy(syncStatus = SyncStatus.SYNCED))
                 }
             } catch (e: Exception) {
-                // mark all as failed
-                pending.forEach { scoreCard ->
-                    scoreCardDao.update(scoreCard.copy(syncStatus = SyncStatus.FAILED))
-                }
+                dao.update(sc.copy(syncStatus = SyncStatus.FAILED))
             }
         }
     }
 }
-

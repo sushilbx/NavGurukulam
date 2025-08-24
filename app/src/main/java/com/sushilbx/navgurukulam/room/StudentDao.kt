@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.Instant
 @Dao
 interface StudentDao {
-    @Query("SELECT * FROM students WHERE deleted = 0 ORDER BY name ASC")
+    @Query("SELECT * FROM students WHERE deleted = 0 ORDER BY fullName ASC")
     fun observeAll(): Flow<List<StudentWithScores>>
 
     @Query("SELECT * FROM students WHERE id = :id")
@@ -31,7 +31,7 @@ interface StudentDao {
 
     // 🔹 Fetch students with their scores
     @Transaction
-    @Query("SELECT * FROM students WHERE deleted = 0 ORDER BY name ASC")
+    @Query("SELECT * FROM students WHERE deleted = 0 ORDER BY fullName ASC")
     fun observeAllWithScores(): Flow<List<StudentWithScores>>
 
     @Transaction

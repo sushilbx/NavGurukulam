@@ -19,9 +19,6 @@ class AddScoreActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_score)
 
         dao = AppDatabase.get  (this).scoreCardDao()
-
-//        val studentId = intent.getLongExtra("studentId", -1)
-
         val studentId = intent.getStringExtra("studentId") ?: return
 
         val etSubject = findViewById<TextInputEditText>(R.id.etSubject)

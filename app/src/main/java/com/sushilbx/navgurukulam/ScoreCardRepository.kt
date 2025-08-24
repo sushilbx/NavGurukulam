@@ -18,7 +18,7 @@ class ScoreCardRepository(
         val pending = dao.getPending()
         for (sc in pending) {
             try {
-                val response = api.syncScoreCard(sc) // your API call
+                val response = api.syncScoreCard(sc)
                 if (response.isSuccessful) {
                     dao.update(sc.copy(syncStatus = SyncStatus.SYNCED))
                 }

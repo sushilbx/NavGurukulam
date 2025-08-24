@@ -9,6 +9,20 @@
     app:cardElevation="4dp"
     app:strokeColor="@color/md_theme_light_primary"
     app:strokeWidth="1dp">
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ivDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@drawable/baseline_delete_24"
+        android:layout_gravity="bottom|end"
+        android:padding="16dp"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="Student Background Image" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +30,6 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Header Section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,7 +48,7 @@
                     android:id="@+id/tvName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="14dp"
                     android:textStyle="bold"
                     android:textColor="@color/textPrimary"
                     tools:text="Player Name" />
@@ -67,27 +80,27 @@
                     android:paddingVertical="6dp"
                     android:text="SYNCED"
                     android:textColor="@android:color/background_dark"
-                    android:textSize="11sp"
+                    android:textSize="10dp"
                     android:textStyle="bold"
-                     />
+                    />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <!-- Divider -->
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/dividerColor"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="10dp" />
 
-        <!-- Stats Section -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="10dp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -97,19 +110,19 @@
                 android:gravity="center">
 
                 <TextView
-                    android:id="@+id/tvTotalScores"
+                    android:id="@+id/tvGender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
+                    android:textSize="14dp"
                     android:textStyle="bold"
                     android:textColor="@color/md_theme_light_primary"
-                    tools:text="12" />
+                    tools:text="Male" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total Scores"
-                    android:textSize="12sp"
+                    android:text="Gender"
+                    android:textSize="10dp"
                     android:textColor="@color/textSecondary" />
 
             </LinearLayout>
@@ -128,19 +141,19 @@
                 android:gravity="center">
 
                 <TextView
-                    android:id="@+id/tvBestScore"
+                    android:id="@+id/tvClass"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
+                    android:textSize="14dp"
                     android:textStyle="bold"
                     android:textColor="@color/colorAccent"
-                    tools:text="98" />
+                    tools:text="9th" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Best Score"
-                    android:textSize="12sp"
+                    android:text="Class"
+                    android:textSize="10dp"
                     android:textColor="@color/textSecondary" />
 
             </LinearLayout>
@@ -159,26 +172,26 @@
                 android:gravity="center">
 
                 <TextView
-                    android:id="@+id/tvAverage"
+                    android:id="@+id/tvSchoolid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
+                    android:textSize="14dp"
                     android:textStyle="bold"
                     android:textColor="@color/warningOrange"
-                    tools:text="85.4" />
+                    tools:text="Sc345" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Average"
-                    android:textSize="12sp"
+                    android:text="School id"
+                    android:textSize="10dp"
                     android:textColor="@color/textSecondary" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <!-- Action Button -->
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAddScore"
             android:layout_width="match_parent"
@@ -189,12 +202,13 @@
             app:icon="@drawable/baseline_add_24"
             app:iconGravity="textStart"
             app:cornerRadius="8dp"
+            android:backgroundTint="#571B1B"
             style="@style/Widget.MaterialComponents.Button" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="8dp">
+            android:paddingHorizontal="8dp">
 
             <TextView
                 android:id="@+id/tvSubject"
@@ -213,7 +227,6 @@
                 android:textStyle="bold"
                 android:textSize="16dp"/>
         </LinearLayout>
-        <!-- Scores RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvScores"
             android:layout_width="match_parent"
@@ -223,6 +236,21 @@
             tools:itemCount="3"
             tools:listitem="@layout/item_score" />
 
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mbEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="10dp"
+            android:text="Edit Student"
+            android:padding="10dp"
+            android:backgroundTint="#8E24AA"
+            android:contentDescription="Student Background Image" />
+
     </LinearLayout>
+</FrameLayout>
+
 
 </com.google.android.material.card.MaterialCardView>

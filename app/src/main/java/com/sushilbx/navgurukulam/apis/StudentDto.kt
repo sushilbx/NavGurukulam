@@ -2,7 +2,10 @@ package com.sushilbx.navgurukulam.apis
 
 data class StudentDto(
     val id: String,
-    val name: String,
+    val fullName: String,
+    val className: String,
+    val gender: String,
+    val schoolId: String,
     val updatedAt: String,
     val deleted: Boolean
 )

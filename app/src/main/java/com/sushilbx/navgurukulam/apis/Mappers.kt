@@ -1,12 +1,18 @@
 package com.sushilbx.navgurukulam.apis
 
-import com.sushilbx.navgurukulam.room.SyncStatus
 import com.sushilbx.navgurukulam.room.ScoreCard
 import com.sushilbx.navgurukulam.room.Student
+import com.sushilbx.navgurukulam.room.SyncStatus
 import kotlinx.datetime.Instant
 
 fun Student.toDto(): StudentDto = StudentDto(
-    id = remoteId ?: "", name = name, updatedAt = updatedAt.toString(), deleted = deleted
+    id = remoteId ?: id,
+    fullName = fullName,
+    className = className,
+    gender = gender,
+    schoolId = schoolId,
+    updatedAt = updatedAt.toString(),
+    deleted = deleted
 )
 
 fun ScoreCard.toDto(remoteStudentId: String): ScoreCardDto = ScoreCardDto(
@@ -15,8 +21,15 @@ fun ScoreCard.toDto(remoteStudentId: String): ScoreCardDto = ScoreCardDto(
 )
 
 fun StudentDto.toEntity(localId: String? = null): Student = Student(
-    id = localId ?: id, remoteId = id, name = name, updatedAt = Instant.parse(updatedAt),
-    deleted = deleted, syncStatus = SyncStatus.SYNCED
+    id = localId ?: id,
+    remoteId = id,
+    fullName = fullName,
+    className = className,
+    gender = gender,
+    schoolId = schoolId,
+    updatedAt = Instant.parse(updatedAt),
+    deleted = deleted,
+    syncStatus = SyncStatus.SYNCED
 )
 
 fun ScoreCardDto.toEntity(localId: String? = null, localStudentId: String): ScoreCard = ScoreCard(

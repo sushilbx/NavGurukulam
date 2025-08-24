@@ -12,16 +12,30 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sushilbx.navgurukulam.R
 import com.sushilbx.navgurukulam.activities.AddScoreActivity
-import com.sushilbx.navgurukulam.databinding.ItemScoreBinding
 import com.sushilbx.navgurukulam.databinding.ItemStudentBinding
 import com.sushilbx.navgurukulam.room.ScoreCard
 import com.sushilbx.navgurukulam.room.Student
 import com.sushilbx.navgurukulam.room.StudentWithScores
 import com.sushilbx.navgurukulam.room.SyncStatus
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Locale
+import androidx.core.graphics.toColorInt
 
 class StudentAdapter : ListAdapter<StudentWithScores, StudentVH>(DIFF) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        StudentVH(ItemStudentBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+
+    var onDeleteClick: ((Student) -> Unit)? = null
+    var onEditClick: ((Student) -> Unit)? = null
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudentVH {
+        val holder = StudentVH(
+            ItemStudentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        )
+        holder.onDeleteClick = onDeleteClick
+        holder.onEditClick = onEditClick
+        return holder
+    }
 
     override fun onBindViewHolder(holder: StudentVH, position: Int) =
         holder.bind(getItem(position))
@@ -40,6 +54,9 @@ class StudentAdapter : ListAdapter<StudentWithScores, StudentVH>(DIFF) {
 class StudentVH(private val binding: ItemStudentBinding) : RecyclerView.ViewHolder(binding.root) {
     private val scoreAdapter = ScoreAdapter()
     private var currentStudent: Student? = null
+    var onDeleteClick: ((Student) -> Unit)? = null
+    var onEditClick: ((Student) -> Unit)? = null
+
 
     init {
         binding.rvScores.layoutManager =
@@ -54,35 +71,57 @@ class StudentVH(private val binding: ItemStudentBinding) : RecyclerView.ViewHold
                 context.startActivity(intent)
             }
         }
-    }
 
+        binding.ivDelete.setOnClickListener {
+            currentStudent?.let { student ->
+                onDeleteClick?.invoke(student)
+            }
+        }
+
+        binding.mbEdit.setOnClickListener {
+            currentStudent?.let { student ->
+                onEditClick?.invoke(student)
+            }
+        }
+    }
 
 
     fun bind(studentWithScores: StudentWithScores) {
         val student = studentWithScores.student
         currentStudent = student
-        binding.tvName.text = student.name
+        binding.tvName.text = student.fullName
+        binding.tvClass.text = student.className
+        binding.tvGender.text = student.gender
+        binding.tvSchoolid.text = student.schoolId
+        val formatter =
+            DateTimeFormatter.ofPattern("dd MMM yyyy, hh:mm a", Locale.getDefault())
+
+        val instant = Instant.parse(student.updatedAt.toString())
+        binding.tvLastUpdated.text ="Last updated : " +instant.atZone(ZoneId.systemDefault()).format(formatter)
 
         when (student.syncStatus) {
             SyncStatus.SYNCED -> {
                 binding.tvSync.text = "SYNCED"
                 binding.tvSync.setBackgroundColor(Color.parseColor("#2E7D32"))
             }
+
             SyncStatus.PENDING -> {
                 binding.tvSync.text = "PENDING"
                 binding.tvSync.setBackgroundColor(Color.parseColor("#FFA000"))
             }
+
             SyncStatus.FAILED -> {
                 binding.tvSync.text = "FAILED"
                 binding.tvSync.setBackgroundColor(Color.parseColor("#C62828"))
             }
         }
 
-        // ✅ Now works, because StudentWithScores has the scores list
+
         scoreAdapter.submitList(studentWithScores.scores)
     }
 
 }
+
 class ScoreAdapter : ListAdapter<ScoreCard, ScoreVH>(DIFF) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScoreVH {
         val view = LayoutInflater.from(parent.context)
@@ -100,6 +139,7 @@ class ScoreAdapter : ListAdapter<ScoreCard, ScoreVH>(DIFF) {
         }
     }
 }
+
 class ScoreVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val tvSubject: TextView = itemView.findViewById(R.id.tvSubject)
     private val tvScore: TextView = itemView.findViewById(R.id.tvScore)
@@ -107,12 +147,10 @@ class ScoreVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(scoreCard: ScoreCard) {
         tvSubject.text = scoreCard.subject
         tvScore.text = scoreCard.score.toString()
-
-        // Optional: color coding for scores
         when {
-            scoreCard.score >= 75 -> tvScore.setTextColor(Color.parseColor("#2E7D32")) // green
-            scoreCard.score >= 40 -> tvScore.setTextColor(Color.parseColor("#F9A825")) // yellow
-            else -> tvScore.setTextColor(Color.parseColor("#C62828")) // red
+            scoreCard.score >= 75 -> tvScore.setTextColor("#2E7D32".toColorInt())
+            scoreCard.score >= 40 -> tvScore.setTextColor("#F9A825".toColorInt())
+            else -> tvScore.setTextColor("#C62828".toColorInt())
         }
     }
 }

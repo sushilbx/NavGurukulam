@@ -21,17 +21,16 @@ class SyncWorker(
     private val prefs = Prefs(appContext)
 
     override suspend fun doWork(): Result = try {
-        // 1) PUSH local changes first (Students → ScoreCards)
         pushStudents()
         pushScoreCards()
 
-        // 2) PULL remote updates (Students → ScoreCards), resolve conflicts by updatedAt
+
         pullStudents()
         pullScoreCards()
 
         Result.success()
     } catch (e: Exception) {
-        Result.retry() // automatic retry for transient failures
+        Result.retry()
     }
 
     private suspend fun pushStudents() {
@@ -53,19 +52,19 @@ class SyncWorker(
     }
 
     private suspend fun pushScoreCards() {
-        val studentMap = db.studentDao().pendingOrFailed() // not ideal, we want all
-        val students = db.studentDao() // build local->remote map for existing students
+        val studentMap = db.studentDao().pendingOrFailed()
+        val students = db.studentDao()
         val idToRemote = HashMap<String, String?>().apply {
-            db.studentDao().pendingOrFailed() // no-op; build from all students instead
+            db.studentDao().pendingOrFailed()
         }
-        db.studentDao().observeAll() // Flow not usable here; build once:
-        db.query("SELECT id, remoteId FROM students", null).use { /* skip raw; simplified */ }
+        db.studentDao().observeAll()
+        db.query("SELECT id, remoteId FROM students", null).use {  }
 
         val dao = db.scoreCardDao()
         dao.pendingOrFailed().forEach { local ->
             try {
                 val remoteStudentId = db.studentDao().getById(local.studentId.toString())?.remoteId
-                    ?: return@forEach // can't push until parent student is synced
+                    ?: return@forEach
                 val res = api.upsertScoreCard(local.toDto(remoteStudentId))
                 dao.markSynced(
                     id = local.id,
@@ -87,13 +86,13 @@ class SyncWorker(
 
         remote.forEach { dto ->
             val localByRemote = db.query("SELECT * FROM students WHERE remoteId = ?", arrayOf(dto.id))
-                .use { null } // simplified; below we do by matching name/remoteId using DAO methods in real code
+                .use { null }
 
-            // Fetch local record by remoteId (create DAO query if needed). For brevity:
+
             val local = dao.pendingOrFailed().find { it.remoteId == dto.id } ?: dao.getById(dto.id)
 
             val incoming = dto.toEntity(localId = local?.id)
-            // Conflict rule: latest updatedAt wins; remote deletion overrides local
+
             if (local == null) {
                 if (!incoming.deleted) dao.upsert(incoming) else Unit
             } else {

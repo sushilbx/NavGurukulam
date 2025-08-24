@@ -7,8 +7,8 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.textfield.TextInputEditText
 import com.sushilbx.navgurukulam.R
 import com.sushilbx.navgurukulam.room.AppDatabase
-import com.sushilbx.navgurukulam.room.ScoreCardDao
 import com.sushilbx.navgurukulam.room.ScoreCard
+import com.sushilbx.navgurukulam.room.ScoreCardDao
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 
@@ -18,7 +18,7 @@ class AddScoreActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_score)
 
-        dao = AppDatabase.get  (this).scoreCardDao()
+        dao = AppDatabase.get(this).scoreCardDao()
         val studentId = intent.getStringExtra("studentId") ?: return
 
         val etSubject = findViewById<TextInputEditText>(R.id.etSubject)
@@ -32,7 +32,7 @@ class AddScoreActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 dao.insert(
                     ScoreCard(
-                        studentId = studentId, // ✅ correct UUID string
+                        studentId = studentId,
                         subject = subject,
                         score = marks,
                         updatedAt = Clock.System.now()

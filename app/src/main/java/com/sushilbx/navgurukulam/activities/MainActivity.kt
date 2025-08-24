@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
         binding.btnRetry.setOnClickListener {
             SyncScheduler.retryNow(this)
             Toast.makeText(this, "Syncing...", Toast.LENGTH_SHORT).show()
-           // binding.tvSyncStatus.text = "Syncing..."
+
 
         }
 

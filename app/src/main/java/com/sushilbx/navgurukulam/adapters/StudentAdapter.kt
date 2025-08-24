@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -21,7 +22,6 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
-import androidx.core.graphics.toColorInt
 
 class StudentAdapter : ListAdapter<StudentWithScores, StudentVH>(DIFF) {
 
@@ -97,7 +97,8 @@ class StudentVH(private val binding: ItemStudentBinding) : RecyclerView.ViewHold
             DateTimeFormatter.ofPattern("dd MMM yyyy, hh:mm a", Locale.getDefault())
 
         val instant = Instant.parse(student.updatedAt.toString())
-        binding.tvLastUpdated.text ="Last updated : " +instant.atZone(ZoneId.systemDefault()).format(formatter)
+        binding.tvLastUpdated.text =
+            "Last updated : " + instant.atZone(ZoneId.systemDefault()).format(formatter)
 
         when (student.syncStatus) {
             SyncStatus.SYNCED -> {
@@ -117,7 +118,7 @@ class StudentVH(private val binding: ItemStudentBinding) : RecyclerView.ViewHold
         }
 
 
-       // scoreAdapter.submitList(studentWithScores.scores)
+        // scoreAdapter.submitList(studentWithScores.scores)
 
         if (studentWithScores.scores.isEmpty()) {
             binding.llScoresHeader.visibility = View.GONE
